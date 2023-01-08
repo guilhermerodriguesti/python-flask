@@ -21,9 +21,11 @@ jobs:
     steps:
     - uses: actions/checkout@v3
     - name: Build the Docker image
-      run: docker build . --file Dockerfile --tag $IMAGE_NAME:$(date +%s)
+      run: |
+        docker build . --file Dockerfile --tag $IMAGE_NAME:$(date +%s)
+        docker build . --file Dockerfile --tag $IMAGE_NAME:latest
 
     - name: Push Image
       run: |
         echo "${{ secrets.DOCKERHUB_PASSWORD }}" | docker login -u "guilhermerodriguesit" --password-stdin
-        docker push $IMAGE_NAME:$(date +%s)
+        docker push $IMAGE_NAME:latest
